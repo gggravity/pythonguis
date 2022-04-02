@@ -8,7 +8,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("My App")
-        widget = Color("blue")
+        widget = Color("red")
         self.setCentralWidget(widget)
 
 
