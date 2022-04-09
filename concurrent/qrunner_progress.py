@@ -1,5 +1,6 @@
 import sys
 import time
+
 from PyQt6.QtCore import QObject, QRunnable, QThreadPool, QTimer, pyqtSignal, pyqtSlot
 from PyQt6.QtWidgets import (
     QApplication,
@@ -15,21 +16,25 @@ from PyQt6.QtWidgets import (
 class WorkerSignals(QObject):
     """
     Defines the signals available from a running worker thread.
+
     progress
-    int progress complete,from 0-100
+        int progress complete,from 0-100
     """
+
     progress = pyqtSignal(int)
 
 
 class Worker(QRunnable):
     """
     Worker thread
+
     Inherits from QRunnable to handle worker thread setup, signals
     and wrap-up.
     """
 
     def __init__(self):
         super().__init__()
+
         self.signals = WorkerSignals()
 
     @pyqtSlot()
@@ -59,17 +64,18 @@ class MainWindow(QMainWindow):
         w.setLayout(layout)
 
         self.setCentralWidget(w)
+
         self.show()
 
         self.threadpool = QThreadPool()
         print(
-            "Multithreading with maximum %d threads" % self.
-            threadpool.maxThreadCount()
+            "Multithreading with maximum %d threads" % self.threadpool.maxThreadCount()
         )
 
     def execute(self):
         worker = Worker()
         worker.signals.progress.connect(self.update_progress)
+
         # Execute
         self.threadpool.start(worker)
 
